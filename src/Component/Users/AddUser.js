@@ -2,27 +2,28 @@ import React, { useState } from 'react'
 
 import Card from '../UI/Card';
 import Button from '../UI/Button';
+import ErrorModal from '../UI/ErrorModel';
 import classes from "./AddUser.module.css"
-// import ErrorModal from '../UI/ErrorModel';
+
 
 function AddUser(props) {
     const [enteruservalue,setuservalue]=useState("")
     const [enteragevalue,setagevalue]=useState("")
-    // const [error, setError]=useState()
+    const [error, setError]=useState()
     const AddUserHandler=(event)=>{
         event.preventDefault();
         if(enteruservalue.trim().length===0 ||enteragevalue.trim().length===0){
-          // setError({
-          //   title:"Invalid input",
-          //   message:"Please enter a valid name ,age and college name (non-empty values)."
-          // })
+          setError({
+            title:"Invalid input",
+            message:"Please enter a valid name ,age and college name (non-empty values)."
+          })
             return;
         }
         if(+enteragevalue<1){
-          // setError({
-          //   title:"Invalid age",
-          //   message:"Please enter a valid age (>0)."
-          // })
+          setError({
+            title:"Invalid age",
+            message:"Please enter a valid age (>0)."
+          })
             return;
         }
         // console.log(enteruservalue,enteragevalue)
@@ -38,10 +39,13 @@ function AddUser(props) {
     const agechangedHanler=(event)=>{
         setagevalue(event.target.value)
     }
+    const errorHandler=()=>{
+      setError(null);
+    }
     
   return (
     <div>
-    
+    {error && <ErrorModal title={error.title} massage={error.message}  onConfirm={errorHandler} />}
     <Card className={classes.input}>
     <form onSubmit={AddUserHandler}>
       <label htmlFor='Users'>Users : </label>
